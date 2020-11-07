@@ -1,6 +1,7 @@
 #Project created by Jarrett Tranel, Trevor Krentz, Ross Jacobson, and Ishtiyaq Ahmed on 11/7/20
 import pygame
-
+from pygame import mixer 
+mixer.init()
 pygame.init()   
 
 BLACK = (0, 0, 0)
@@ -8,9 +9,27 @@ WHITE = (255, 255, 255)
 GREEN = (0, 255, 0)
 RED = (255, 0, 0)
 
+twoDArray = [
+    [0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0]]
+
 size = [800, 500]
 
 screen = pygame.display.set_mode(size)
+
+#music = pygame.mixer.music.load('Odd Time Signatures in Video Game Music.mp3')
+#pygame.mixer.music.play(loops=-1)
+
+#time.sleep(2)
+#pygame.mixer.music.stop()
 
 done = False 
 #Music
@@ -19,7 +38,7 @@ done = False
 #Array keeping track of each grid status
 #Endings
 rect_x = 50
-rect_y = 50
+rect_y = 10
 
 x_speed = 0
 y_speed = 0
@@ -46,9 +65,10 @@ while not done:
     y_speed = 0
     screen.fill(BLACK)
 
-    pygame.draw.rect(screen, WHITE, [rect_x, rect_y, 50, 50])
-    pygame.draw.rect(screen, RED, [rect_x + 10, rect_y + 10, 30, 30])
-    pygame.draw.circle(screen, RED, [rect_x + 100, rect_y + 100], 30)
+    for i in range(0, 10):
+        pygame.draw.rect(screen, WHITE, [rect_x + (i * 50), rect_y, 40, 40])
+        for j in range(0, 10):
+            pygame.draw.rect(screen, WHITE, [rect_x + (i * 50), rect_y + (j * 50), 40, 40])
 
 
     pygame.display.flip()
