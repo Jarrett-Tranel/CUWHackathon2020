@@ -68,7 +68,7 @@ X = 700
 Y = 500
 size = [X, Y]
 
-
+score = 100
 
 screen = pygame.display.set_mode(size)
 #winScreen = pygame.display.set_mode([300,400])
@@ -78,7 +78,7 @@ font = pygame.font.Font('freesansbold.ttf', 32)
 titleText = font.render('MAZE', True, GREY, scoreTextblue) 
 titleText2 = font.render('ESCAPE', True, GREY, scoreTextblue) 
 text = font.render('Score', True, scoreTextgreen, scoreTextblue) 
-scoreNumber = font.render("0",True,scoreTextgreen,scoreTextblue)
+scoreNumber = font.render(str(score),True,scoreTextgreen,scoreTextblue)
 winText = font.render("You Win" , True, GREY, scoreTextblue)
 
 titleRect = titleText.get_rect()
