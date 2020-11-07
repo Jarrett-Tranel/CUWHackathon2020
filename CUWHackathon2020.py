@@ -78,20 +78,20 @@ font = pygame.font.Font('freesansbold.ttf', 32)
 titleText = font.render('MAZE', True, GREY, scoreTextblue) 
 titleText2 = font.render('ESCAPE', True, GREY, scoreTextblue) 
 text = font.render('Score', True, scoreTextgreen, scoreTextblue) 
-scoreNumber = font.render(str(score),True,scoreTextgreen,scoreTextblue)
+#scoreNumber = font.render(str(score),True,scoreTextgreen,scoreTextblue)
 winText = font.render("You Win" , True, GREY, scoreTextblue)
 
 titleRect = titleText.get_rect()
 titleRect2 = titleText2.get_rect() 
 textRect = text.get_rect() 
-scoreNumberTextRect = scoreNumber.get_rect()
+#scoreNumberTextRect = scoreNumber.get_rect()
 winScreenRect = winText.get_rect()
 
 # set the center of the rectangular object. 
 titleRect.center = (X -70, Y -450)
 titleRect2.center = (X -70, Y -410)
 textRect.center = (X -70, Y // 3)
-scoreNumberTextRect.center = (X - 70 , Y-250) 
+#scoreNumberTextRect.center = (X - 70 , Y-250) 
 winScreenRect.center = (350,Y - 450)
 
 winStatus = False;
@@ -154,6 +154,12 @@ while not done:
                     twoDArray[playerlocation[0]][playerlocation[1]] = 0
                     twoDArray[playerlocation[0]][playerlocation[1] + 1] = 4
                     playerlocation[1] = playerlocation[1] + 1
+            elif event.key == pygame.K_SPACE:
+                twoDArray[playerlocation[0]][playerlocation[1] + 1] = 0
+                twoDArray[playerlocation[0]][playerlocation[1] - 1] = 0
+                twoDArray[playerlocation[0] + 1][playerlocation[1]] = 0
+                twoDArray[playerlocation[0] - 1][playerlocation[1]] = 0
+                score = score - 10
             else:
                 ranNum = random.randint(0, 1)
                 if (ranNum == 0):
@@ -187,8 +193,11 @@ while not done:
                 colorToDraw = WHITE
             pygame.draw.rect(screen, colorToDraw, [rect_x + (i * 50), rect_y + (j * 50), 40, 40])
 
-  
+    scoreNumber = font.render(str(score),True,scoreTextgreen,scoreTextblue)
     screen.blit(text, textRect) 
+    
+    scoreNumberTextRect = scoreNumber.get_rect()
+    scoreNumberTextRect.center = (X - 70 , Y-250)
     screen.blit(scoreNumber, scoreNumberTextRect)
     screen.blit(titleText,titleRect)
     screen.blit(titleText2,titleRect2)
