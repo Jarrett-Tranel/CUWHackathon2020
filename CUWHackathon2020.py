@@ -1,13 +1,19 @@
 #Project created by Jarrett Tranel, Trevor Krentz, Ross Jacobson, and Ishtiyaq Ahmed on 11/7/20
 import pygame
 from pygame import mixer 
+
+import random 
+
 mixer.init()
 pygame.init()   
 
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
-GREEN = (0, 255, 0)
+GREEN = (0, 70, 0)
+GREEN2 = (0, 200, 0)
 RED = (255, 0, 0)
+GREY = (128, 128, 128)
+LIGHTBLUE = (0, 0, 130)
 
 twoDArray = [
     [0,0,0,0,0,0,0,0,0,0],
@@ -21,7 +27,23 @@ twoDArray = [
     [0,0,0,0,0,0,0,0,0,0],
     [0,0,0,0,0,0,0,0,0,0]]
 
-size = [800, 500]
+#random.seed(30)
+for i in range(0, 10):
+     for j in range(0, 10):
+        ranNum = random.randint(0, 3)
+        if ranNum == 0:
+            twoDArray[i][j] = 1
+
+randx = random.randint(0, 1)
+if randx == 1:
+    randx = 9
+randy = random.randint(0, 9)
+
+
+twoDArray[randx][randy] = 2
+
+
+size = [700, 500]
 
 screen = pygame.display.set_mode(size)
 
@@ -63,12 +85,16 @@ while not done:
     rect_y = rect_y + y_speed
     x_speed = 0
     y_speed = 0
-    screen.fill(BLACK)
+    screen.fill(GREEN)
 
     for i in range(0, 10):
-        pygame.draw.rect(screen, WHITE, [rect_x + (i * 50), rect_y, 40, 40])
         for j in range(0, 10):
-            pygame.draw.rect(screen, WHITE, [rect_x + (i * 50), rect_y + (j * 50), 40, 40])
+            colorToDraw = GREEN2
+            if twoDArray [i][j] == 1:
+                colorToDraw = GREY
+            elif twoDArray[i][j] == 2:
+                colorToDraw = LIGHTBLUE
+            pygame.draw.rect(screen, colorToDraw, [rect_x + (i * 50), rect_y + (j * 50), 40, 40])
 
 
     pygame.display.flip()
