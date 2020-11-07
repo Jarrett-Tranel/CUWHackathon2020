@@ -1,7 +1,6 @@
-#Project created by Jarrett Tranel, Trevor Krentz, Ross Jacobson, and Ishtiyaq Ahmed on 11/7/20
 import pygame
 from pygame import mixer 
-
+import time
 import random 
 
 mixer.init()
@@ -27,6 +26,17 @@ twoDArray = [
     [0,0,0,0,0,0,0,0,0,0],
     [0,0,0,0,0,0,0,0,0,0]]
 
+# define the RGB value for white, 
+# green, blue colour . 
+scoreTextWhite = (255, 255, 255) 
+scoreTextgreen = (0, 255, 0) 
+scoreTextblue = (0, 0, 128) 
+
+# set the pygame window name 
+pygame.display.set_caption('Show Text') 
+
+
+
 #random.seed(30)
 for i in range(0, 10):
      for j in range(0, 10):
@@ -34,21 +44,45 @@ for i in range(0, 10):
         if ranNum == 0:
             twoDArray[i][j] = 1
 
+#creating the door out
 randx = random.randint(0, 1)
 if randx == 1:
     randx = 9
 randy = random.randint(0, 9)
-
-
 twoDArray[randx][randy] = 2
 
+#Creating the enemy
+randx = random.randint(0, 9)
+randy = random.randint(0, 9)
+twoDArray[randx][randy] = 3
+enemylocation = [randx, randy]
 
-size = [700, 500]
+
+X = 700
+Y = 500
+size = [X, Y]
+
+
 
 screen = pygame.display.set_mode(size)
 
-#music = pygame.mixer.music.load('Odd Time Signatures in Video Game Music.mp3')
-#pygame.mixer.music.play(loops=-1)
+font = pygame.font.Font('freesansbold.ttf', 32) 
+
+titleText = font.render('MAZE', True, GREY, scoreTextblue) 
+titleText2 = font.render('ESCAPE', True, GREY, scoreTextblue) 
+text = font.render('Score', True, scoreTextgreen, scoreTextblue) 
+scoreNumber = font.render("0",True,scoreTextgreen,scoreTextblue)
+
+titleRect = titleText.get_rect()
+titleRect2 = titleText2.get_rect() 
+textRect = text.get_rect() 
+scoreNumberTextRect = scoreNumber.get_rect()
+
+# set the center of the rectangular object. 
+titleRect.center = (X -70, Y -450)
+titleRect2.center = (X -70, Y -410)
+textRect.center = (X -70, Y // 3)
+scoreNumberTextRect.center = (X - 70 , Y-250) 
 
 #time.sleep(2)
 #pygame.mixer.music.stop()
@@ -60,14 +94,15 @@ done = False
 #Array keeping track of each grid status
 #Endings
 rect_x = 50
-rect_y = 10
+rect_y = 5
 
 x_speed = 0
 y_speed = 0
 
 clock = pygame.time.Clock()
 
-while not done:
+while not done: 
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             done = True
@@ -80,6 +115,21 @@ while not done:
                 y_speed = -50
             elif event.key == pygame.K_DOWN:
                 y_speed = 50
+            else:
+                ranNum = random.randint(0, 1)
+                if (ranNum == 0):
+                    time.sleep(2)
+                    twoDArray[enemylocation[0]][enemylocation[1]] = 0
+                    twoDArray[enemylocation[0] - 1][enemylocation[1]] = 3
+                    enemylocation[0] = enemylocation[0] - 1
+                elif (ranNum == 1):
+                    time.sleep(2)
+                    twoDArray[enemylocation[0]][enemylocation[1]] = 0
+                    twoDArray[enemylocation[0] + 1][enemylocation[1]] = 3
+                    enemylocation[0] = enemylocation[0] + 1
+                    
+
+              
     
     rect_x = rect_x + x_speed
     rect_y = rect_y + y_speed
@@ -96,6 +146,16 @@ while not done:
                 colorToDraw = LIGHTBLUE
             pygame.draw.rect(screen, colorToDraw, [rect_x + (i * 50), rect_y + (j * 50), 40, 40])
 
-
+  
+    screen.blit(text, textRect) 
+    screen.blit(scoreNumber, scoreNumberTextRect)
+    screen.blit(titleText,titleRect)
+    screen.blit(titleText2,titleRect2)
+    
+    pygame.display.update()
     pygame.display.flip()
     clock.tick(60)
+
+
+
+		
