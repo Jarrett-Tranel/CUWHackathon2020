@@ -123,15 +123,17 @@ while not done:
             done = True
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_LEFT:
-                if not (twoDArray[playerlocation[0] - 1][playerlocation[1]] == 1):
+                if not (twoDArray[playerlocation[0] - 1][playerlocation[1]] == 1) and (twoDArray[playerlocation[0] - 1] != None):
+                    if (twoDArray[playerlocation[0] - 1][playerlocation[1]] == 2):
+                        winStatus = True;
                     twoDArray[playerlocation[0]][playerlocation[1]] = 0
                     twoDArray[playerlocation[0] - 1][playerlocation[1]] = 4
                     playerlocation[0] = playerlocation[0] - 1
-                if (twoDArray[playerlocation[0] - 1][playerlocation[1]] == 2):
-                    winStatus = True;
-                    
+                                  
             elif event.key == pygame.K_RIGHT:
-                if not (twoDArray[playerlocation[0] + 1][playerlocation[1]] == 1):
+                if not (twoDArray[playerlocation[0] + 1][playerlocation[1]] == 1) and (twoDArray[playerlocation[0] + 1] != None):
+                    if (twoDArray[playerlocation[0] + 1][playerlocation[1]] == 2):
+                        winStatus = True;
                     twoDArray[playerlocation[0]][playerlocation[1]] = 0
                     twoDArray[playerlocation[0] + 1][playerlocation[1]] = 4
                     playerlocation[0] = playerlocation[0] + 1
@@ -139,12 +141,16 @@ while not done:
                     winStatus = True;
  
             elif event.key == pygame.K_UP:
-                if not (twoDArray[playerlocation[0]][playerlocation[1] - 1] == 1):
+                if not (twoDArray[playerlocation[0]][playerlocation[1] - 1] == 1) and (twoDArray[playerlocation[1] - 1] != None):
+                    if (twoDArray[playerlocation[0]][playerlocation[1] - 1] == 2):
+                        winStatus = True;
                     twoDArray[playerlocation[0]][playerlocation[1]] = 0
                     twoDArray[playerlocation[0]][playerlocation[1] - 1] = 4
                     playerlocation[1] = playerlocation[1] - 1
             elif event.key == pygame.K_DOWN:
-                if not (twoDArray[playerlocation[0]][playerlocation[1] + 1] == 1):
+                if not (twoDArray[playerlocation[0]][playerlocation[1] + 1] == 1) and (twoDArray[playerlocation[1] + 1] != None):
+                    if (twoDArray[playerlocation[0]][playerlocation[1] + 1] == 2):
+                        winStatus = True;
                     twoDArray[playerlocation[0]][playerlocation[1]] = 0
                     twoDArray[playerlocation[0]][playerlocation[1] + 1] = 4
                     playerlocation[1] = playerlocation[1] + 1
