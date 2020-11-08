@@ -7,6 +7,7 @@ mixer.init()
 pygame.init()   
 
 start_ticks=pygame.time.get_ticks() #starter tick
+current_ticks = pygame.time.get_ticks()
 
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
@@ -117,8 +118,8 @@ x_speed = 0
 y_speed = 0
 
 clock = pygame.time.Clock()
-
 sprite = pygame.image.load('D:\csResources\Smaller Projects\Hackathon\CUWHackathon2020\sprite.PNG')
+pygame.display.set_icon(sprite)
 
 
 
@@ -167,6 +168,19 @@ while not done:
                 if (score <= 0):
                     LoseFlag = True
                     winStatus = True
+            elif event.key == pygame.K_r:
+                LoseFlag = False
+                winStatus = False
+                done = False
+                score = 0
+                twoDArray[4][4] = 4
+                playerlocation = [4,4]
+                tempplayerlocation = [4,4]
+                #reset the timer
+                pygame.time.ticks(0)
+                
+
+                
             else:
                 ranNum = random.randint(0, 1)
                 if (ranNum == 0):
@@ -206,8 +220,10 @@ while not done:
     scoreNumberTextRect.center = (X - 120 , Y-250)
     screen.blit(scoreNumber, scoreNumberTextRect)
 
+
+
     if (winStatus == False):
-        seconds = (pygame.time.get_ticks()-start_ticks)/1000
+        seconds = (pygame.time.get_ticks()-current_ticks)/1000
     if (30 - seconds <= 0):
         print(str(30-seconds))
         LoseFlag = True
@@ -244,6 +260,8 @@ while not done:
         else:
             winScreenRect.center = (400,Y - 450)
             screen.blit(winText,winScreenRect)
+            smallsprite=pygame.transform.scale(sprite, (200,175))
+            screen.blit(smallsprite, (325, 300))
         scoreNumberTextRect.center = (X - 300 , Y-250)
         screen.blit(scoreNumber, scoreNumberTextRect)
         totalScore = font.render("Total Score:",True,scoreTextgreen,scoreTextblue)
