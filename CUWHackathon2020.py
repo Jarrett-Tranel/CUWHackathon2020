@@ -43,7 +43,7 @@ pygame.display.set_caption('Maze Escape')
 #rocks
 for i in range(0, 10):
      for j in range(0, 10):
-        ranNum = random.randint(0, 3)
+        ranNum = random.randint(0, 2)
         if ranNum == 0:
             twoDArray[i][j] = 1
 
@@ -66,7 +66,7 @@ playerlocation = [4,4]
 tempplayerlocation = [4,4]
 
 
-X = 700
+X = 800
 Y = 500
 size = [X, Y]
 
@@ -82,6 +82,7 @@ titleText2 = font.render('ESCAPE', True, GREY, scoreTextblue)
 text = font.render('Score', True, scoreTextgreen, scoreTextblue) 
 #scoreNumber = font.render(str(score),True,scoreTextgreen,scoreTextblue)
 winText = font.render("You Win" , True, GREY, scoreTextblue)
+loseText = font.render("You Lose", True, GREY, scoreTextblue) 
 
 titleRect = titleText.get_rect()
 titleRect2 = titleText2.get_rect() 
@@ -90,11 +91,11 @@ textRect = text.get_rect()
 winScreenRect = winText.get_rect()
 
 # set the center of the rectangular object. 
-titleRect.center = (X -70, Y -450)
-titleRect2.center = (X -70, Y -410)
-textRect.center = (X -70, Y // 3)
+titleRect.center = (X -120, Y -450)
+titleRect2.center = (X -120, Y -410)
+textRect.center = (X -120, Y // 3)
 #scoreNumberTextRect.center = (X - 70 , Y-250) 
-winScreenRect.center = (350,Y - 450)
+winScreenRect.center = (400,Y - 450)
 
 winStatus = False;
 winStatusFlag = False;
@@ -109,6 +110,8 @@ done = False
 #Endings
 rect_x = 50
 rect_y = 5
+
+LoseFlag = False
 
 x_speed = 0
 y_speed = 0
@@ -161,6 +164,9 @@ while not done:
                 twoDArray[playerlocation[0] + 1][playerlocation[1]] = 0
                 twoDArray[playerlocation[0] - 1][playerlocation[1]] = 0
                 score = score - 10
+                if (score <= 0):
+                    LoseFlag = True
+                    winStatus = True
             else:
                 ranNum = random.randint(0, 1)
                 if (ranNum == 0):
@@ -197,17 +203,28 @@ while not done:
     scoreNumber = font.render(str(score),True,scoreTextgreen,scoreTextblue)
     screen.blit(text, textRect)     
     scoreNumberTextRect = scoreNumber.get_rect()
-    scoreNumberTextRect.center = (X - 70 , Y-250)
+    scoreNumberTextRect.center = (X - 120 , Y-250)
     screen.blit(scoreNumber, scoreNumberTextRect)
 
     if (winStatus == False):
         seconds = (pygame.time.get_ticks()-start_ticks)/1000
+    if (30 - seconds <= 0):
+        print(str(30-seconds))
+        LoseFlag = True
+        winStatus = True
+
    
     timerNumber = font.render(str(int(30 - seconds)),True,scoreTextgreen,scoreTextblue)
+    timerLabel = font.render(("seconds"), True,scoreTextgreen,scoreTextblue)
+    timerLabel2 = font.render(("remaining"), True,scoreTextgreen,scoreTextblue)
     screen.blit(text, textRect)     
     timerNumberTextRect = timerNumber.get_rect()
-    timerNumberTextRect.center = (X - 70 , Y-150)
+    timerNumberTextRect.center = (X - 120 , Y-150)
     screen.blit(timerNumber, timerNumberTextRect)
+    timerNumberTextRect.center = (X - 170 , Y-110)
+    screen.blit(timerLabel, timerNumberTextRect)
+    timerNumberTextRect.center = (X - 190 , Y-70)
+    screen.blit(timerLabel2, timerNumberTextRect)
 
     screen.blit(titleText,titleRect)
     screen.blit(titleText2,titleRect2)
@@ -221,11 +238,16 @@ while not done:
             winStatusFlag = True
             score = score + int(30-seconds)
         screen.fill(LIGHTBLUE)
-        screen.blit(winText,winScreenRect)
-        scoreNumberTextRect.center = (X - 250 , Y-250)
+        if (LoseFlag == True):
+            score = 0
+            screen.blit(loseText, winScreenRect)
+        else:
+            winScreenRect.center = (400,Y - 450)
+            screen.blit(winText,winScreenRect)
+        scoreNumberTextRect.center = (X - 300 , Y-250)
         screen.blit(scoreNumber, scoreNumberTextRect)
         totalScore = font.render("Total Score:",True,scoreTextgreen,scoreTextblue)
-        scoreNumberTextRect.center = (X - 450 , Y-250)
+        scoreNumberTextRect.center = (X - 500 , Y-250)
         screen.blit(totalScore, scoreNumberTextRect)
 
     pygame.display.update()
