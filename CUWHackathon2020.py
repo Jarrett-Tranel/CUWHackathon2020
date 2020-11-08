@@ -6,6 +6,8 @@ import random
 mixer.init()
 pygame.init()   
 
+start_ticks=pygame.time.get_ticks() #starter tick
+
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 GREEN = (0, 70, 0)
@@ -33,7 +35,7 @@ scoreTextgreen = (0, 255, 0)
 scoreTextblue = (0, 0, 128) 
 
 # set the pygame window name 
-pygame.display.set_caption('Show Text') 
+pygame.display.set_caption('Maze Escape') 
 
 
 
@@ -95,6 +97,7 @@ textRect.center = (X -70, Y // 3)
 winScreenRect.center = (350,Y - 450)
 
 winStatus = False;
+winStatusFlag = False;
 #time.sleep(2)
 #pygame.mixer.music.stop()
 
@@ -137,8 +140,6 @@ while not done:
                     twoDArray[playerlocation[0]][playerlocation[1]] = 0
                     twoDArray[playerlocation[0] + 1][playerlocation[1]] = 4
                     playerlocation[0] = playerlocation[0] + 1
-                if (twoDArray[playerlocation[0] + 1][playerlocation[1]] == 2):
-                    winStatus = True;
  
             elif event.key == pygame.K_UP:
                 if not (twoDArray[playerlocation[0]][playerlocation[1] - 1] == 1) and (twoDArray[playerlocation[1] - 1] != None):
@@ -194,24 +195,40 @@ while not done:
             pygame.draw.rect(screen, colorToDraw, [rect_x + (i * 50), rect_y + (j * 50), 40, 40])
 
     scoreNumber = font.render(str(score),True,scoreTextgreen,scoreTextblue)
-    screen.blit(text, textRect) 
-    
+    screen.blit(text, textRect)     
     scoreNumberTextRect = scoreNumber.get_rect()
     scoreNumberTextRect.center = (X - 70 , Y-250)
     screen.blit(scoreNumber, scoreNumberTextRect)
+
+    if (winStatus == False):
+        seconds = (pygame.time.get_ticks()-start_ticks)/1000
+   
+    timerNumber = font.render(str(int(30 - seconds)),True,scoreTextgreen,scoreTextblue)
+    screen.blit(text, textRect)     
+    timerNumberTextRect = timerNumber.get_rect()
+    timerNumberTextRect.center = (X - 70 , Y-150)
+    screen.blit(timerNumber, timerNumberTextRect)
+
     screen.blit(titleText,titleRect)
     screen.blit(titleText2,titleRect2)
     #x=size[0]*.5
     #y=size[1]*.5
     #screen.blit(sprite, (x,y))
+    
+    #str(seconds)
     if (winStatus == True):
+        if (winStatusFlag == False):
+            winStatusFlag = True
+            score = score + int(30-seconds)
         screen.fill(LIGHTBLUE)
-        #pygame.draw.rect( pygame.display.set_mode(size), LIGHTBLUE, [0, 0, size[X / 2], size[Y / 2]])
-        screen.blit(winText,winScreenRect )
+        screen.blit(winText,winScreenRect)
+        scoreNumberTextRect.center = (X - 250 , Y-250)
+        screen.blit(scoreNumber, scoreNumberTextRect)
+        totalScore = font.render("Total Score:",True,scoreTextgreen,scoreTextblue)
+        scoreNumberTextRect.center = (X - 450 , Y-250)
+        screen.blit(totalScore, scoreNumberTextRect)
+
     pygame.display.update()
     pygame.display.flip()
     clock.tick(60)
 
-
-
-		
